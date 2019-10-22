@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 
 function SearchInput(props) {
     const classes = useStyles();
-    const { searchCriteria, searchResults, setSearchResults } = props;
+    const { data, searchCriteria, searchResults, setSearchResults } = props;
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleInputChange = e => {
@@ -31,11 +31,16 @@ function SearchInput(props) {
         //TO DO FIX SEARCH ALL PROPERTIES
         
         if(searchCriteria === 'all'){
-            setSearchResults(searchResults.filter(function(obj) {
-                return Object.keys(obj).some(function(key) {
-                    return obj[key] && obj[key].toString().indexOf(searchTerm) > -1;
-                })
+          if(searchTerm){
+            setSearchResults(data.filter(function(obj) {
+              return Object.keys(obj).some(function(key) {
+                  return obj[key] && obj[key].toString().indexOf(searchTerm) > -1;
+              })
             }));
+          }
+          else{
+            setSearchResults(data);
+          }
         }
     };
 

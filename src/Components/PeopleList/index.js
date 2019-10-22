@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const people = [{
+const data = [{
     "id": "A000360",
     "title": "Senator, 2nd Class",
     "short_title": "Sen.",
@@ -115,14 +115,14 @@ const people = [{
 
 function PeopleList(props) {
     const classes = useStyles();
-    const [searchResults, setSearchResults] = useState(people);
+    const [searchResults, setSearchResults] = useState(data);
 
     
 
     return (
       <div className="App">
         
-        <SearchInput searchCriteria="all" searchResults={searchResults} setSearchResults={setSearchResults} />
+        <SearchInput data={data} searchCriteria="all" searchResults={searchResults} setSearchResults={setSearchResults} />
         <table>
             <tbody>
                 <tr>
