@@ -34,7 +34,7 @@ function Main() {
     });
 
 
-  }, [setFilters]);
+  }, []);
 
 
   return (
