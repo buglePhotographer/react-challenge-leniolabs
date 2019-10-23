@@ -1,33 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
 
-
-const useStyles = makeStyles(theme => ({
-    container: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
-    textField: {
-        marginLeft: theme.spacing(1),
-        marginRight: theme.spacing(1),
-    },
-    dense: {
-        marginTop: theme.spacing(2),
-    },
-    menu: {
-        width: 200,
-    },
-}));
 
 function PeopleList(props) {
-    const classes = useStyles();
     const { filters, data } = props;
     let filteredResults = data;
     Object.keys(filters).forEach(key => {
-      filteredResults = filteredResults.filter(item => {
-        return item[key] && item[key].toString().toLowerCase().includes(filters[key].toLowerCase()) || filters[key] === '';
-        // return item[key] && item[key].toString().toLowerCase().indexOf(filters[key].toLowerCase()) > -1;
-      });
+        if (key === 'all') {
+            filteredResults = filteredResults.filter(function (obj) {
+                return Object.keys(obj).some(function (key) {
+                    return obj[key] && obj[key].toString().toLowerCase().includes(filters['all'].toLowerCase()) || filters['all'] === '';
+                })
+            });
+        }
+        else {
+            filteredResults = filteredResults.filter(item => {
+                return item[key] && item[key].toString().toLowerCase().includes(filters[key].toLowerCase()) || filters[key] === '';
+            });
+        }
     });
 
     return (
