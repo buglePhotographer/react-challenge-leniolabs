@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 export default axios.create({
-  baseURL: `https://api.propublica.org/congress/v1/102/80/members.json`,
+  baseURL: `https://api.propublica.org/congress/v1/`,
   headers: {
-    'X-API-Key': 'PROPUBLICA_API_KEY'
+    'X-API-Key': '233UTVY9BsRBYj5YdpAJdb0OvOmAFV0nfmjJvFYw'
   }
 });

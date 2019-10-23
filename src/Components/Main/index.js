@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import _ from 'lodash';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import PeopleList from '../PeopleList';
 import SearchInput from '../SearchInput';
-import Header from '../Header';
-import Footer from '../Footer';
-import _ from 'lodash';
-import myData from '../../data.json';
+import API from '../../Api/CongressPeople';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -15,7 +13,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const data = myData;
+let data;
 
 function Main() {
   const classes = useStyles();
@@ -23,18 +21,24 @@ function Main() {
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
 
   useEffect(() => {
-    let aux = {};
-    _.forEach(data[0], (d, index) => {
-      aux[index] = "";
+    API.get('115/senate/members.json').then(response => {
+      console.log('Fetching data...', response);
+      data = response.data.results[0].members;
+
+      let aux = {};
+      _.forEach(data[0], (d, index) => {
+        aux[index] = "";
+      });
+      aux['all'] = "";
+      setFilters(aux);
     });
-    aux['all'] = "";
-    setFilters(aux);
-  }, [data, setFilters]);
+
+
+  }, [setFilters]);
 
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-      <Header />
       <div>
         <div>
           <SearchInput searchCriteria='all' filters={filters} setFilters={setFilters} />
@@ -46,17 +50,17 @@ function Main() {
             onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
           >
             Advanced Search
-          </Button>
+                </Button>
         </div>
         {showAdvancedSearch ?
           <div>
-            {_.map(data[0], (item, index) => { return <SearchInput searchCriteria={index} filters={filters} setFilters={setFilters} /> })}
+            {_.map(data[0], (item, index) => { return <SearchInput searchCriteria={index} filters={filters} setFilters={setFilters} key={index} /> })}
           </div>
           : ''}
         <PeopleList data={data} filters={filters} />
       </div>
-      <Footer />
     </div>
+
   );
 }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 
 function PeopleList(props) {
@@ -28,6 +29,8 @@ function PeopleList(props) {
                         <th>Last Name</th>
                         <th>Twitter</th>
                         <th>Next election</th>
+                        <th>ID</th>
+                        <th>View more</th>
                     </tr>
                     {filteredResults && filteredResults.map(function (item, key) {
                         return (
@@ -36,6 +39,11 @@ function PeopleList(props) {
                                 <td>{item.last_name}</td>
                                 <td>{item.twitter_account}</td>
                                 <td>{item.next_election}</td>
+                                <td>{item.id}</td>
+                                {/* TO DO PASS ID TO DETAIL PAGE */}
+                                <td>
+                                    <Link to="/congressmanDetail">View more</Link>
+                                </td>
                             </tr>
                         )
                     })}
