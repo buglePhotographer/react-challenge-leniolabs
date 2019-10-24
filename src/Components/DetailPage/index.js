@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import ReactJson from 'react-json-view'
 import API from '../../Api/CongressPeople';
 
+function isEmpty(obj) {
+    return Object.entries(obj).length === 0 && obj.constructor === Object;
+}
+
 
 function DetailPage(props) {
     const [data, setData] = useState({});
@@ -17,7 +21,7 @@ function DetailPage(props) {
     return (
         <div>
             <Link to="/" >Back to list</Link>
-            {data ? <ReactJson src={data} /> : ''}
+            {!isEmpty(data) ? <ReactJson src={data} /> : <div>Fetching data, please wait...</div>}
         </div>
     );
 }

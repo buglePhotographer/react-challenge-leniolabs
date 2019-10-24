@@ -10,6 +10,7 @@ import API from '../../Api/CongressPeople';
 const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
+    height: '7vh'
   },
 }));
 
@@ -38,25 +39,26 @@ function Main() {
 
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-      <div>
-        <div>
-          <SearchInput searchCriteria='all' filters={filters} setFilters={setFilters} />
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            endIcon={<SearchIcon></SearchIcon>}
-            onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
-          >
-            Advanced Search
-                </Button>
-        </div>
+    <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <div style={{ width: '20vw' }}>
+        <SearchInput searchCriteria='all' filters={filters} setFilters={setFilters} />
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          endIcon={<SearchIcon></SearchIcon>}
+          onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
+        >
+          Advanced Search
+          </Button>
         {showAdvancedSearch ?
           <div>
             {_.map(data[0], (item, index) => { return <SearchInput searchCriteria={index} filters={filters} setFilters={setFilters} key={index} /> })}
           </div>
-          : ''}
+          : ''
+        }
+      </div>
+      <div style={{ width: '60vw' }}>
         <PeopleList data={data} filters={filters} />
       </div>
     </div>
