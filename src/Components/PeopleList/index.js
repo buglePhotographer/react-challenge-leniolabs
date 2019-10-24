@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -6,6 +6,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles({
@@ -23,7 +24,10 @@ const useStyles = makeStyles({
 function PeopleList(props) {
     const classes = useStyles();
     const { filters, data } = props;
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(7);
     let filteredResults = data;
+
     Object.keys(filters).forEach(key => {
         if (key === 'all') {
             filteredResults = filteredResults.filter(function (obj) {
@@ -39,6 +43,16 @@ function PeopleList(props) {
         }
     });
 
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = event => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
     return (
         <Paper className={classes.root}>
             <Table className={classes.table} aria-label="simple table">
@@ -53,20 +67,37 @@ function PeopleList(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {filteredResults && filteredResults.map(row => (
-                        <TableRow key={row.id}>
-                            <TableCell component="th" scope="row">
-                                {row.first_name}
-                            </TableCell>
-                            <TableCell align="center">{row.last_name}</TableCell>
-                            <TableCell align="center">{row.twitter_account}</TableCell>
-                            <TableCell align="center">{row.next_election}</TableCell>
-                            <TableCell align="center">{row.id}</TableCell>
-                            <TableCell align="center"><Link to={`/congressmanDetail/${row.id}`}>View more</Link></TableCell>
-                        </TableRow>
-                    ))}
+                    {filteredResults && filteredResults
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .map(row => (
+                            <TableRow key={row.id}>
+                                <TableCell component="th" scope="row">
+                                    {row.first_name}
+                                </TableCell>
+                                <TableCell align="center">{row.last_name}</TableCell>
+                                <TableCell align="center">{row.twitter_account}</TableCell>
+                                <TableCell align="center">{row.next_election}</TableCell>
+                                <TableCell align="center">{row.id}</TableCell>
+                                <TableCell align="center"><Link to={`/congressmanDetail/${row.id}`}>View more</Link></TableCell>
+                            </TableRow>
+                        ))}
                 </TableBody>
             </Table>
+            <TablePagination
+                rowsPerPageOptions={[7, 10, 25]}
+                component="div"
+                count={filteredResults ? filteredResults.length : 0}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                backIconButtonProps={{
+                    'aria-label': 'previous page',
+                }}
+                nextIconButtonProps={{
+                    'aria-label': 'next page',
+                }}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
         </Paper>
     );
 }

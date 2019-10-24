@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import _ from 'lodash';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,7 +10,7 @@ import API from '../../Api/CongressPeople';
 const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
-    height: '7vh'
+    height: '6vh'
   },
 }));
 
@@ -40,7 +40,7 @@ function Main() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <div style={{ width: '20vw' }}>
+      <div style={{ width: '20vw', display: 'flex', flexDirection: 'column', justifyContent: 'stretch' }}>
         <SearchInput searchCriteria='all' filters={filters} setFilters={setFilters} />
         <Button
           variant="contained"
@@ -52,9 +52,9 @@ function Main() {
           Advanced Search
           </Button>
         {showAdvancedSearch ?
-          <div>
+          <Fragment>
             {_.map(data[0], (item, index) => { return <SearchInput searchCriteria={index} filters={filters} setFilters={setFilters} key={index} /> })}
-          </div>
+          </Fragment>
           : ''
         }
       </div>
