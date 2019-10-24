@@ -14,7 +14,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/" exact component={Main} />
-          <Route path="/congressmanDetail" exact component={DetailPage} />
+          <Route path="/congressmanDetail/:id" exact component={DetailPage} />
         </Switch>
       </Router>
       <Footer />

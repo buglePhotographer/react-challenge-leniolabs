@@ -4,11 +4,11 @@ import ReactJson from 'react-json-view'
 import API from '../../Api/CongressPeople';
 
 
-function DetailPage() {
+function DetailPage(props) {
     const [data, setData] = useState({});
-    // TO DO RECEIVE ID FROM PARENT LINK AND FETCH WITH IT
+    const { id } = props.match.params;
     useEffect(() => {
-        API.get('members/W000817.json').then(response => {
+        API.get(`members/${id}.json`).then(response => {
             console.log('Fetching data...', response.data.results[0]);
             setData(response.data.results[0]);
         });

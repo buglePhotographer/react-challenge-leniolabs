@@ -40,9 +40,8 @@ function PeopleList(props) {
                                 <td>{item.twitter_account}</td>
                                 <td>{item.next_election}</td>
                                 <td>{item.id}</td>
-                                {/* TO DO PASS ID TO DETAIL PAGE */}
                                 <td>
-                                    <Link to="/congressmanDetail">View more</Link>
+                                    <Link to={`/congressmanDetail/${item.id}`}>View more</Link>
                                 </td>
                             </tr>
                         )
