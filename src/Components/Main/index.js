@@ -6,6 +6,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import PeopleList from '../PeopleList';
 import SearchInput from '../SearchInput';
 import API from '../../Api/CongressPeople';
+import { Grid } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -20,8 +21,14 @@ function Main() {
   const classes = useStyles();
   const [filters, setFilters] = useState([]);
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
+  const [layout, setLayout] = useState('row');
+
 
   useEffect(() => {
+    if(window.innerWidth < 600){
+      setLayout('column')
+    }
+
     API.get('115/senate/members.json').then(response => {
       console.log('Fetching data...', response);
       data = response.data.results[0].members;
@@ -39,8 +46,8 @@ function Main() {
 
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <div style={{ width: '20vw', display: 'flex', flexDirection: 'column', justifyContent: 'stretch' }}>
+    <div style={{ display: 'flex', flexDirection: `${layout}` }}>
+      <Grid item xs={12} md={2} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'stretch' }}>
         <SearchInput searchCriteria='all' filters={filters} setFilters={setFilters} />
         <Button
           variant="contained"
@@ -57,10 +64,11 @@ function Main() {
           </Fragment>
           : ''
         }
-      </div>
-      <div style={{ width: '60vw' }}>
+      </Grid>
+      <Grid item xs={12} md={1}></Grid>
+      <Grid item xs={12} md={8} style={{ }}>
         <PeopleList data={data} filters={filters} />
-      </div>
+      </Grid>
     </div>
 
   );
